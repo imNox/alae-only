@@ -63,10 +63,28 @@ body{background:#08000f;display:flex;justify-content:center;align-items:flex-sta
 </style>
 
 <div class="stage" id="stage">
+
 <!-- BACKGROUND MUSIC -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+const bgMusic = document.getElementById("bgMusic");
+
+bgMusic.volume = 1.0;
+
+const playMusic = () => {
+  bgMusic.play().catch(() => {});
+};
+
+document.addEventListener("click", playMusic, { once: true });
+document.addEventListener("touchstart", playMusic, { once: true });
+
+window.addEventListener("load", () => {
+  playMusic();
+});
+</script>
 
 
 
