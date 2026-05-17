@@ -1,8 +1,13 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Pinyon+Script&family=Alex+Brush&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#08000f;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;font-family:'Dancing Script',cursive}
 .stage{width:600px;height:600px;position:relative;overflow:hidden;margin:0 auto;background:radial-gradient(ellipse at 50% 30%,#1a0520 0%,#0d0118 40%,#050008 100%)}
+@media(max-width:640px){
+  .stage{width:100vw;height:calc(100vw * 16/9);min-height:100dvh;min-height:100vh}
+  body{align-items:flex-start}
+}
 .layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity 1.8s ease}
 .layer.hidden{opacity:0;pointer-events:none}
 .layer.visible{opacity:1}
@@ -146,14 +151,24 @@ body{background:#08000f;display:flex;justify-content:center;align-items:flex-sta
 </div>
 
 <script>
-const W=600,H=600;
 const stage=document.getElementById('stage');
 const pCvs=document.getElementById('particleCanvas');
 const pCtx=pCvs.getContext('2d');
-pCvs.width=W;pCvs.height=H;
 const cCvs=document.getElementById('cherryCanvas');
 const cCtx=cCvs.getContext('2d');
+
+function getWH(){
+  return {W:stage.clientWidth||600, H:stage.clientHeight||600};
+}
+let {W,H}=getWH();
+pCvs.width=W;pCvs.height=H;
 cCvs.width=W;cCvs.height=H;
+
+window.addEventListener('resize',()=>{
+  const d=getWH();W=d.W;H=d.H;
+  pCvs.width=W;pCvs.height=H;
+  cCvs.width=W;cCvs.height=H;
+});
 
 // ---- AMBIENT PARTICLES (always running) ----
 const ambients=[];
